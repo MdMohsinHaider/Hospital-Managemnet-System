@@ -8,7 +8,7 @@ const Header = () => {
     <header className={styles.header}>
       {/* Logo */}
       <div className={styles.logo}>
-        <img src="/logo.png" alt="Hospital Logo" />
+        <img src="/hospital_logo.png" alt="Hospital Logo" />
         <h1>Hospital Management</h1>
       </div>
 

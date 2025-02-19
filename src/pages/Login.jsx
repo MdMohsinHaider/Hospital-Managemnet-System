@@ -17,6 +17,12 @@ const Login = () => {
       <div className={styles.container}>
         <h2 className={styles.title}>Login</h2>
         <div className={styles.toggleContainer}>
+        <button 
+            className={`${styles.toggleButton} ${activeUser === "Doctor" ? styles.active : ""}`}
+            onClick={() => setActiveUser("Doctor")}
+          >
+            Doctor 
+          </button>
           <button 
             className={`${styles.toggleButton} ${activeUser === "patient" ? styles.active : ""}`}
             onClick={() => setActiveUser("pateint")}
