@@ -9,7 +9,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Router/> {/* ✅ Yeh pura routing ka kaam karega */}
+      <Router/> {/* ✅ Yeh pura routing ka kaam karegak */}
     </BrowserRouter>
   );
 };
