@@ -1,17 +1,11 @@
 // src/App.jsx
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import Header from "./components/Header";
-import Router from "./ElRouter/Router";
+import { RouterProvider } from "react-router-dom";
+import { myRoutes } from "./ElRouter/Router";
 
 
 const App = () => {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Router/> {/* ✅ Yeh pura routing ka kaam karegak */}
-    </BrowserRouter>
-  );
+  return <RouterProvider router={myRoutes}/>
 };
 
 export default App;

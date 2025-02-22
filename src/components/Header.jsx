@@ -1,6 +1,6 @@
 // src/components/Header/Header.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.css"; // Importing CSS module
 
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
       {/* Navigation Menu */}
       <nav>
         <ul className={styles.navLinks}>
-          <li><Link to="/">Home</Link></li>
+          <li><NavLink to="/">Home</NavLink></li>
           <li><Link to="/doctors">Doctors</Link></li>
           <li><Link to="/patients">Patients</Link></li>
           <li><Link to="/appointments">Appointments</Link></li>

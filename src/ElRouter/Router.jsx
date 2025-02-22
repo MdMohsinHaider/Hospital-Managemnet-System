@@ -1,23 +1,50 @@
 // src/ElRouter/Router.jsx
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+import { Routes, Route, createBrowserRouter } from "react-router-dom";
+import Home from "../pages/homepage/Home";
+import Login from "../pages/login/Login";
+import Register from "../pages/register/Register";
+import Layout from "../pages/layout/Layout";
+import Doctors from '../pages/doctor/Doctors'
+import Patients from '../pages/patients/Patients'
+import Appointment from '../pages/appointments/Appointment'
+import Contact from "../pages/contact/Contact";
 
 
-const Router = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      {/* <Route path="/doctors" element={<Doctors />} />
-      <Route path="/patients" element={<Patients />} />
-      <Route path="/appointments" element={<Appointments />} />
-      <Route path="/contact" element={<Contact />} /> */}
-      <Route path="/Login" element={<Login/>}/>
-      <Route path="/register" element={<Register/>}/>
-    </Routes>
-  );
-};
+export  let myRoutes=createBrowserRouter([
+  {
+    path:"/",
+    element:<Layout/>,
+    children:[
+      {
+        path:"/",
+        element:<Home />,
+      },
+      {
+        path:"/doctors",
+        element:<Doctors/>,
+      },
+      {
+        path:"/patients",
+        element:<Patients />,
+      },
+      {
+        path:"/appointments",
+        element:<Appointment />,
+      },
+      {
+        path:"/contact",
+        element:<Contact />,
+      },
+      {
+        path:"/login",
+        element:<Login/>,
+      },
+      {
+        path:"/register",
+        element:<Register />,
+      },
+    ]
+  }
+])
 
-export default Router;
