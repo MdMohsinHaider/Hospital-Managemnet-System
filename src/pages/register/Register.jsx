@@ -45,7 +45,7 @@ const Register = () => {
             <div className={style.details}> 
               <div>
                 <label htmlFor="first">First Name</label> <br />
-                <input type="text" placeholder="Enter your first Name " onChange={handleChange} name='first' value={signup.first} />
+                <input type="text" placeholder="Enter your first Name " onChange={handleChange} name='first' value={signup.first} required/>
               </div>
               <div>
                 <label htmlFor="last">Last Name</label> <br />
