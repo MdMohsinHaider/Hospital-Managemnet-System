@@ -1,6 +1,5 @@
 // src/ElRouter/Router.jsx
-import React from "react";
-import { Routes, Route, createBrowserRouter } from "react-router-dom";
+import {createBrowserRouter } from "react-router-dom";
 import Home from "../pages/homepage/Home";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";

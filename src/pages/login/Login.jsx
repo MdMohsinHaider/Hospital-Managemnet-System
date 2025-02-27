@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 import styles from "./Login.module.css";
 
 const Login = () => {
@@ -31,12 +32,15 @@ const Login = () => {
         try {
             const response = await axios.post(apiEndpoint);
             if (response.data === true) {
+                toast.success("Login success")
+                sessionStorage.setItem("id",formData.id);
                 navigate(`/${activeUser.toLowerCase()}`);
             } else {
                 setError("Invalid credentials. Please try again.");
             }
         } catch (error) {
             setError("Something went wrong. Please try again later.");
+            toast.error(`something went wrong ${error}`)
             console.error("Login error:", error);
         }
     };

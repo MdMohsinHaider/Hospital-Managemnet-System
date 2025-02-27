@@ -1,5 +1,4 @@
 // src/components/Header/Header.jsx
-import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import styles from "./Header.module.css"; // Importing CSS module
 
@@ -9,7 +8,7 @@ const Header = () => {
       {/* Logo */}
       <div className={styles.logo}>
         <img src="/hospital_logo.png" alt="Hospital Logo" />
-        <h1>Hospital Management</h1>
+        <h1 className={styles.title}>Hospital Management</h1>
       </div>
 
       {/* Navigation Menu */}
