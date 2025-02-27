@@ -3,14 +3,6 @@ import styles from "./Login.module.css";
 
 const Login = () => {
   const [activeUser, setActiveUser] = useState("pateint");
-
-
-  const data =[
-    {
-        name:"Devil",
-        phone:"1234567"
-    }
-  ]
   
   return (
     
