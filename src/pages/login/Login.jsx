@@ -1,14 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 
 const Login = () => {
     const [activeUser, setActiveUser] = useState("patient");
-
-    // email and password spelling must be  same as backend api entity
-    const [formData, setFormData] = useState({ email: "", password: "" }); 
+    const [formData, setFormData] = useState({ id: "", email: "", password: "" });
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -18,29 +15,27 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(formData);
+        
         setError("");
 
         let apiEndpoint = "";
         if (activeUser === "Doctor") {
-            apiEndpoint = "http://localhost:8080/api/doctor/login"; // replace kar lena doctor wale login api sai
-        } 
-        else if (activeUser === "patient") {
-            apiEndpoint = "http://localhost:8080/api/patient/login"; // replace from patient login api
-        } 
-        else {
-            apiEndpoint = "http://localhost:8080/api/user/login"; // replace from user login api 
+            apiEndpoint = `http://localhost:8080/doctorController/verifyDoctor/${formData.id}/${formData.password}`;
+        } else if (activeUser === "patient") {
+            apiEndpoint = `http://localhost:8080/patientsController/verifyPatient/${formData.id}/${formData.password}`;
+        } else {
+            apiEndpoint = `http://localhost:8080/adminController/verifyAdmin/${formData.email}/${formData.password}`;
         }
 
         try {
-            const response = await axios.post(apiEndpoint, formData);
+            const response = await axios.post(apiEndpoint);
             if (response.data === true) {
                 navigate(`/${activeUser.toLowerCase()}`);
-            } 
-            else {
+            } else {
                 setError("Invalid credentials. Please try again.");
             }
-        } 
-        catch (error) {
+        } catch (error) {
             setError("Something went wrong. Please try again later.");
             console.error("Login error:", error);
         }
@@ -64,23 +59,40 @@ const Login = () => {
                         Patient
                     </button>
                     <button
-                        className={`${styles.toggleButton} ${activeUser === "user" ? styles.active : ""}`}
-                        onClick={() => setActiveUser("user")}
+                        className={`${styles.toggleButton} ${activeUser === "admin" ? styles.active : ""}`}
+                        onClick={() => setActiveUser("admin")}
                     >
-                        User
+                        Admin
                     </button>
                 </div>
                 <form className={styles.formContainer} onSubmit={handleSubmit}>
-                    <label>Email / Mobile Number</label>
-                    <input
-                        type="text"
-                        name="email"
-                        placeholder="Enter your email or mobile"
-                        className={styles.input}
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                    />
+                    {activeUser === "admin" ? (
+                        <>
+                            <label>Email</label>
+                            <input
+                                type="text"
+                                name="email"
+                                placeholder="Enter your email"
+                                className={styles.input}
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <label>ID</label>
+                            <input
+                                type="text"
+                                name="id"
+                                placeholder="Enter your ID"
+                                className={styles.input}
+                                value={formData.id}
+                                onChange={handleChange}
+                                required
+                            />
+                        </>
+                    )}
                     <label>Password</label>
                     <input
                         type="password"
@@ -91,7 +103,7 @@ const Login = () => {
                         onChange={handleChange}
                         required
                     />
-                    <Link to="/" className={styles.forgotPassword}>Forgot Password?</Link>
+                    <a href="#" className={styles.forgotPassword}>Forgot Password?</a>
                     {error && <p className={styles.error}>{error}</p>}
                     <button type="submit" className={styles.loginButton}>Login</button>
                 </form>

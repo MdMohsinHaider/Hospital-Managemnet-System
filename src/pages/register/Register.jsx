@@ -1,101 +1,136 @@
-import {useState } from 'react'
-import style from './register.module.css'
-import toast, { Toaster } from 'react-hot-toast'
+import { useState } from 'react';
+import axios from 'axios';
+import style from './register.module.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Register = () => {
-    let [signup, setSignup] = useState({
-        first: "",
-        last: "",
-        email: "",
-        phone: "",
+    const [patient, setPatient] = useState({
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
         gender: "",
-        blood: "",
-        age: "",
-        city: "",
-    })
-    let handleChange = (e) => {
-        let { name, value } = e.target;
-        setSignup({ ...signup, [name]: value })
-    }
+        contactNumber: "",
+        email: "",
+        password: "",
+        address: "",
+        emergencyContact: "",
+        bloodType: ""
+    });
 
-    let handleSubmit = (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setPatient({ ...patient, [name]: value });
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(signup);
-        toast.success("Registration Successful");
-        setSignup({
-            first: "",
-            last: "",
-            email: "",
-            phone: "",
-            gender: "",
-            blood: "",
-            age: "",
-            city: "",
-        })
-    }
+        console.log(patient);
+        
+
+        try {
+            const response = await axios.post("http://localhost:8080/patientsController/savePatient", patient, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (response.status === 201 || response.status === 200) {
+                toast.success("Registration Successful");
+                setPatient({
+                    firstName: "",
+                    lastName: "",
+                    dateOfBirth: "",
+                    gender: "",
+                    contactNumber: "",
+                    email: "",
+                    password: "",
+                    address: "",
+                    emergencyContact: "",
+                    bloodType: ""
+                });
+            }
+        } catch (error) {
+            console.error("Registration Failed:", error);
+            toast.error("Registration Failed! Please try again.");
+        }
+    };
+
     return (
         <div className={style.container}>
             <Toaster />
             <div className={style.doctor}>
-                <img src="src/pages/image/doctor.avif" alt="" />
+                <img src="src/pages/image/doctor.avif" alt="Doctor" />
             </div>
             <div className={style.form}>
-                <h1>Registration Form</h1>
-                <form action="" onSubmit={handleSubmit}>
+                <h1>Patient Registration</h1>
+                <form onSubmit={handleSubmit}>
                     <div className={style.details}>
                         <div>
-                            <label htmlFor="first">First Name</label> <br />
-                            <input type="text" placeholder="Enter your first Name " onChange={handleChange} name='first' value={signup.first} required />
+                            <label htmlFor="firstName">First Name</label>
+                            <input type="text" placeholder="Enter first name" name="firstName" value={patient.firstName} onChange={handleChange} required />
                         </div>
                         <div>
-                            <label htmlFor="last">Last Name</label> <br />
-                            <input type="text" placeholder="Enter your Last Name " onChange={handleChange} name='last' value={signup.last} required />
+                            <label htmlFor="lastName">Last Name</label>
+                            <input type="text" placeholder="Enter last name" name="lastName" value={patient.lastName} onChange={handleChange} required />
                         </div>
                     </div>
 
                     <div className={style.details}>
                         <div>
-                            <label htmlFor="email">Email</label> <br />
-                            <input type="text" placeholder="Enter your email" onChange={handleChange} name='email' value={signup.email} required />
+                            <label htmlFor="dateOfBirth">Date of Birth</label>
+                            <input type="date" name="dateOfBirth" value={patient.dateOfBirth} onChange={handleChange} required />
                         </div>
                         <div>
-                            <label htmlFor="phone">Phone</label><br />
-                            <input type="number" onChange={handleChange} name='phone' value={signup.phone} />
-                        </div>
-                    </div>
-
-                    <div className={style.details}>
-                        <div >
-                            <label htmlFor="gender">Gender:</label> <br />
-                            <select id="gender" name="gender" value={signup.gender} onChange={handleChange}>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label htmlFor="blood">Blood group:</label> <br />
-                            <select id="blood" name="blood" required value={signup.blood} onChange={handleChange}>
+                            <label htmlFor="gender">Gender</label>
+                            <select name="gender" value={patient.gender} onChange={handleChange} required>
                                 <option value="">-- Select --</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
+                                <option value="1">Male</option>
+                                <option value="2">Female</option>
+                                <option value="3">Other</option>
                             </select>
                         </div>
                     </div>
+
                     <div className={style.details}>
                         <div>
-                            <label htmlFor="age">Age</label><br />
-                            <input type="number" name='age' value={signup.age} onChange={handleChange} max={70} min={0} />
+                            <label htmlFor="contactNumber">Contact Number</label>
+                            <input type="tel" placeholder="Enter contact number" name="contactNumber" value={patient.contactNumber} onChange={handleChange} required />
                         </div>
                         <div>
-                            <label htmlFor="city">City</label><br />
-                            <input type="text" name="city" value={signup.city} onChange={handleChange} />
+                            <label htmlFor="email">Email</label>
+                            <input type="email" placeholder="Enter email" name="email" value={patient.email} onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    <div className={style.details}>
+                        <div>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" placeholder="Enter password" name="password" value={patient.password} onChange={handleChange} required />
+                        </div>
+                        <div>
+                            <label htmlFor="address">Address</label>
+                            <input type="text" placeholder="Enter address" name="address" value={patient.address} onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    <div className={style.details}>
+                        <div>
+                            <label htmlFor="emergencyContact">Emergency Contact</label>
+                            <input type="tel" placeholder="Enter emergency contact" name="emergencyContact" value={patient.emergencyContact} onChange={handleChange} />
+                        </div>
+                        <div>
+                            <label htmlFor="bloodType">Blood Type</label>
+                            <select name="bloodType" value={patient.bloodType} onChange={handleChange} required>
+                                <option value="">-- Select --</option>
+                                <option value="1">A+</option>
+                                <option value="2">A-</option>
+                                <option value="3">B+</option>
+                                <option value="4">B-</option>
+                                <option value="5">AB+</option>
+                                <option value="6">AB-</option>
+                                <option value="7">O+</option>
+                                <option value="8">O-</option>
+                            </select>
                         </div>
                     </div>
 
@@ -105,7 +140,7 @@ const Register = () => {
                 </form>
             </div>
         </div>
-    )
+    );
 }
 
-export default Register
+export default Register;
