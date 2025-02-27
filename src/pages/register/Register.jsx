@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import {useState } from 'react'
 import style from './register.module.css'
 import toast, { Toaster } from 'react-hot-toast'
 
