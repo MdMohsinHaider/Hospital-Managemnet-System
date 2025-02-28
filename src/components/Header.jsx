@@ -7,7 +7,7 @@ const Header = () => {
     <header className={styles.header}>
       {/* Logo */}
       <div className={styles.logo}>
-        <img src="/hospital_logo.png" alt="Hospital Logo" />
+        <Link to="/"><img src="/hospital_logo.png" alt="Hospital Logo" /></Link>
         <h1 className={styles.title}>Hospital Management</h1>
       </div>
 
@@ -18,7 +18,6 @@ const Header = () => {
           <li><Link to="/doctors">Doctors</Link></li>
           <li><Link to="/patients">Patients</Link></li>
           <li><Link to="/appointments">Appointments</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
         </ul>
       </nav>
 
