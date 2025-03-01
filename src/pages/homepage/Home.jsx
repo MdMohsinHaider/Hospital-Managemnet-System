@@ -1,7 +1,8 @@
 // src/pages/Home/Home.jsx
-import React from "react";
 import styles from "./home.module.css"; // Importing CSS module
-import { useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
+import Hero from "./Hero";
 
 
 const doctors = [
@@ -24,15 +25,12 @@ const doctors = [
 
 const Home = () => {
 
-  const navigate = useNavigate();
+  
   return (
     <div className={styles.home}>
+      <Hero/>
       {/* Hero Section */}
-      <section className={styles.hero}>
-        <h1>Welcome to Our Hospital</h1>
-        <p>Your health is our priority. Book an appointment with our expert doctors.</p>
-        <button className={styles.ctaButton} onClick={() => navigate("/register")}>Book Appointment</button>
-      </section>
+      
 
       <div className={styles.doctorsContainer}>
       <h2 className={styles.title}>Our Doctor Services</h2>
@@ -72,7 +70,7 @@ const Home = () => {
       <section className={styles.contact}>
         <h2>Need Assistance?</h2>
         <p>Call us at <strong>+91 6201592239</strong> or email <strong>support@hospital.com</strong></p>
-        <button className={styles.contactButton}>Contact Us</button>
+        <Link to="/contact"><button className={styles.contactButton}>Contact Us</button></Link>
       </section>
     </div>
   );

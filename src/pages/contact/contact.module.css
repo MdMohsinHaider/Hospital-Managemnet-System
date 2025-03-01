@@ -1,15 +1,14 @@
-/* appointment.module.css */
-
-.container {
+/* contact.module.css */
+.contactPage {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     background: linear-gradient(to right, #6a11cb, #2575fc);
     padding: 20px;
 }
 
-.appointmentBox {
+.contactContainer {
     max-width: 800px;
     width: 100%;
     padding: 40px;
@@ -21,52 +20,49 @@
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
 
-.title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 16px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .description {
     font-size: 18px;
     color: #555;
+    margin-bottom: 20px;
     font-weight: 500;
-    margin-bottom: 16px;
 }
 
-.appointmentForm {
+.contactForm {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 .input,
-.textarea,
-.select {
+.textarea {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
+    margin: 12px 0;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
-    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    transition: border 0.3s ease-in-out;
 }
 
 .input:focus,
-.textarea:focus,
-.select:focus {
+.textarea:focus {
     border-color: #6a11cb;
     outline: none;
-    box-shadow: 0 0 5px rgba(106, 17, 203, 0.3);
 }
 
 .textarea {
     resize: none;
-    height: 120px;
+    height: 140px;
 }
 
 .button {
@@ -77,8 +73,8 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
-    font-weight: bold;
     transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
 }
 
 .button:hover {
@@ -88,33 +84,7 @@
 
 .error {
     color: red;
+    margin: 10px 0;
     font-size: 14px;
     font-weight: bold;
-    margin: 8px 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .appointmentBox {
-        padding: 30px;
-    }
-    
-    .title {
-        font-size: 24px;
-    }
-
-    .description {
-        font-size: 16px;
-    }
-
-    .input,
-    .textarea,
-    .select {
-        font-size: 14px;
-    }
-
-    .button {
-        font-size: 16px;
-        padding: 12px;
-    }
 }

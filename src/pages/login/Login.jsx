@@ -32,9 +32,13 @@ const Login = () => {
         try {
             const response = await axios.post(apiEndpoint);
             if (response.data === true) {
-                toast.success("Login success")
-                sessionStorage.setItem("id",formData.id);
+                if (formData.email.length>0) {
+                    sessionStorage.setItem("email",formData.email);
+                } else{
+                    sessionStorage.setItem("id",formData.id);
+                }
                 navigate(`/${activeUser.toLowerCase()}`);
+                toast.success("Login success")
             } else {
                 setError("Invalid credentials. Please try again.");
             }
@@ -42,6 +46,14 @@ const Login = () => {
             setError("Something went wrong. Please try again later.");
             toast.error(`something went wrong ${error}`)
             console.error("Login error:", error);
+            
+            // testing without login Api data
+                // if (formData.email.length>0) {
+                //     sessionStorage.setItem("email",formData.email);
+                // } else{
+                //     sessionStorage.setItem("id",formData.id);
+                // }
+                // navigate(`/${activeUser.toLowerCase()}`);
         }
     };
 
