@@ -3,6 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import style from "./appointment.module.css";
 
+
 const Appointment = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -13,31 +14,48 @@ const Appointment = () => {
     message: ""
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    const { name, email, phone, date, time } = formData;
+    if (!name || !email || !phone || !date || !time) {
+      return "All fields are required.";
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return "Invalid email format.";
+    }
+    if (!/^\d{10}$/.test(phone)) {
+      return "Phone number must be 10 digits.";
+    }
+    return "";
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!formData.name || !formData.email || !formData.phone || !formData.date || !formData.time) {
-      setError("All fields are required.");
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
+    setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8080/appointments", formData);
+      const response = await axios.post("http://localhost:8080/appointmentController/saveAppointment", formData);
       if (response.status === 200) {
         toast.success("Appointment booked successfully");
         setFormData({ name: "", email: "", phone: "", date: "", time: "", message: "" });
       }
     } catch (error) {
-      setError("Failed to book appointment. Please try again later.");
+      setError(error.response?.data?.message || "Failed to book appointment.");
       toast.error("Something went wrong");
-      console.log(error);
-      
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,7 +84,9 @@ const Appointment = () => {
           <textarea name="message" value={formData.message} onChange={handleChange} className={style.textarea} />
 
           {error && <p className={style.error}>{error}</p>}
-          <button type="submit" className={style.button}>Book Appointment</button>
+          <button type="submit" className={style.button} disabled={loading}>
+            {loading ? "Booking..." : "Book Appointment"}
+          </button>
         </form>
       </div>
     </div>

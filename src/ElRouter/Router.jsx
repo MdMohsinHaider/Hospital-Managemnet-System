@@ -8,6 +8,7 @@ import Doctors from '../pages/doctor/Doctors'
 import Patients from '../pages/patients/Patients'
 import Appointment from '../pages/appointments/Appointment'
 import Contact from "../pages/contact/Contact";
+import Admin from "../pages/adminDashboard/Admin"
 
 
 export  let myRoutes=createBrowserRouter([
@@ -20,11 +21,11 @@ export  let myRoutes=createBrowserRouter([
         element:<Home />,
       },
       {
-        path:"/doctors",
+        path:"/doctor",
         element:<Doctors/>,
       },
       {
-        path:"/patients",
+        path:"/patient",
         element:<Patients />,
       },
       {
@@ -43,6 +44,10 @@ export  let myRoutes=createBrowserRouter([
         path:"/register",
         element:<Register />,
       },
+      {
+        path:"/admin",
+        element:<Admin/>
+      }
     ]
   }
 ])

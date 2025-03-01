@@ -13,13 +13,13 @@
     text-align: center;
 }
 
-.mainContent {
+/* .mainContent {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-}
+} */
 
 .footer {
     background: #343a40;
