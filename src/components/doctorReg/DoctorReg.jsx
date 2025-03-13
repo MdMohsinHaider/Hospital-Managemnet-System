@@ -47,27 +47,6 @@ const DoctorReg = () => {
         setFormData({ ...formData, availableDays: selectedOptions.map(option => option.value) });
     };
 
-    const checkContactExists = async (contactNumber) => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/existsByContactNumber?contactNumber=${contactNumber}`);
-            return response.data; // API returns true if contact exists
-        } catch (error) {
-            console.log(error);
-            
-            return false; // Assume no match if API fails
-        }
-    };
-
-    const checkEmailExists = async (email) => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/existsByEmail?email=${email}`);
-            return response.data; // API returns true if email exists
-        } catch (error) {
-            console.log(error);
-            
-            return false; // Assume no match if API fails
-        }
-    };
 
     const validateForm = async () => {
         const { name, email, contactNumber, specialization, experienceYears, clinicAddress, availableDays, consultationFee, password, confirmPassword } = formData;
@@ -93,21 +72,6 @@ const DoctorReg = () => {
         if (password !== confirmPassword) {
             return "Passwords do not match.";
         }
-
-        // Check if contact number already exists
-        const contactExists = await checkContactExists(contactNumber);
-        if (contactExists) {
-            toast.error("Contact number already exists!");
-            return "Contact number already exists.";
-        }
-
-        // Check if email already exists
-        const emailExists = await checkEmailExists(email);
-        if (emailExists) {
-            toast.error("Email already exists!");
-            return "Email already exists.";
-        }
-
         return "";
     };
 
