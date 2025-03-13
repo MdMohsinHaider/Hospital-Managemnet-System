@@ -1,0 +1,49 @@
+.PatientAppointmentContainer {
+    padding: 20px;
+    background-color: #ba8ff388;
+    border-radius: 10px;
+    max-width: 98%;
+    margin: auto;
+}
+
+.CardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.Card {
+    background: #fdfdf541;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    width: 280px;
+    text-align: left;
+    transition: transform 0.2s ease-in-out;
+}
+
+.Card:hover {
+    transform: scale(1.05);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+h3 {
+    color: #007bff;
+}
+
+p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Strikethrough for past appointments */
+.ExpiredDate {
+    text-decoration: line-through;
+    color: red;
+    font-weight: bold;
+}

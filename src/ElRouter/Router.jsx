@@ -9,6 +9,7 @@ import Patients from '../pages/patients/Patients'
 import Appointment from '../pages/appointments/Appointment'
 import Contact from "../pages/contact/Contact";
 import Admin from "../pages/adminDashboard/Admin"
+import DoctorsEdit from "../pages/adminDashboard/DoctorsEdit";
 
 
 export  let myRoutes=createBrowserRouter([
@@ -47,6 +48,10 @@ export  let myRoutes=createBrowserRouter([
       {
         path:"/admin",
         element:<Admin/>
+      },
+      {
+        path:"editByAdmin/:id",
+        element:<DoctorsEdit/>
       }
     ]
   }
