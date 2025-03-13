@@ -15,14 +15,15 @@ const Header = () => {
       <nav>
         <ul className={styles.navLinks}>
           <li><NavLink to="/">Home</NavLink></li>
-          <li><Link to="/doctor">Doctors</Link></li>
-          <li><Link to="/patient">Patients</Link></li>
-          <li><Link to="/appointments">Guest Appointment</Link></li>
+          <li><Link to="/about">About</Link></li>
+          {/* <li><Link to="/patient">Patients</Link></li>
+          <li><Link to="/appointments">Appointment</Link></li> */}
         </ul>
       </nav>
 
       {/* Login/Register */}
       <div className={styles.authButtons}>
+        <Link to="/" className={styles.loginBtn}>Home</Link>
         <Link to="/login" className={styles.loginBtn}>Login</Link>
         <Link to="/register" className={styles.registerBtn}>Register</Link>
       </div>

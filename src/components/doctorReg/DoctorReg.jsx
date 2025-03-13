@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import Select from "react-select"; // Import react-select
 import toast from "react-hot-toast";
 import style from "./DoctorReg.module.css";
+
+const API_BASE_URL = "http://localhost:8090/api/doctor";
 
 const specializations = [
     "Allergy and immunology", "Anesthesiology", "Dermatology", "Diagnostic radiology", "Emergency medicine",
@@ -10,7 +13,15 @@ const specializations = [
     "Preventive medicine", "Psychiatry", "Radiation oncology", "Surgery", "Urology"
 ];
 
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+const daysOfWeek = [
+    { value: "Monday", label: "Monday" },
+    { value: "Tuesday", label: "Tuesday" },
+    { value: "Wednesday", label: "Wednesday" },
+    { value: "Thursday", label: "Thursday" },
+    { value: "Friday", label: "Friday" },
+    { value: "Saturday", label: "Saturday" },
+    { value: "Sunday", label: "Sunday" }
+];
 
 const DoctorReg = () => {
     const [formData, setFormData] = useState({
@@ -21,29 +32,47 @@ const DoctorReg = () => {
         experienceYears: "",
         clinicAddress: "",
         availableDays: [],
-        consultationFee: ""
+        consultationFee: "",
+        password: "",
+        confirmPassword: ""
     });
 
-    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleDaysChange = (e) => {
-        const value = e.target.value;
-        setFormData((prevState) => ({
-            ...prevState,
-            availableDays: prevState.availableDays.includes(value)
-                ? prevState.availableDays.filter((day) => day !== value)
-                : [...prevState.availableDays, value]
-        }));
+    const handleDaysChange = (selectedOptions) => {
+        setFormData({ ...formData, availableDays: selectedOptions.map(option => option.value) });
     };
 
-    const validateForm = () => {
-        const { name, email, contactNumber, specialization, experienceYears, clinicAddress, availableDays, consultationFee } = formData;
-        if (!name || !email || !contactNumber || !specialization || !experienceYears || !clinicAddress || availableDays.length === 0 || !consultationFee) {
+    const checkContactExists = async (contactNumber) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/existsByContactNumber?contactNumber=${contactNumber}`);
+            return response.data; // API returns true if contact exists
+        } catch (error) {
+            console.log(error);
+            
+            return false; // Assume no match if API fails
+        }
+    };
+
+    const checkEmailExists = async (email) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/existsByEmail?email=${email}`);
+            return response.data; // API returns true if email exists
+        } catch (error) {
+            console.log(error);
+            
+            return false; // Assume no match if API fails
+        }
+    };
+
+    const validateForm = async () => {
+        const { name, email, contactNumber, specialization, experienceYears, clinicAddress, availableDays, consultationFee, password, confirmPassword } = formData;
+        
+        if (!name || !email || !contactNumber || !specialization || !experienceYears || !clinicAddress || availableDays.length === 0 || !consultationFee || !password || !confirmPassword) {
             return "All fields are required.";
         }
         if (!/^\d{10}$/.test(contactNumber)) {
@@ -58,22 +87,47 @@ const DoctorReg = () => {
         if (isNaN(consultationFee) || consultationFee < 0) {
             return "Consultation fee must be a positive number.";
         }
+        if (password.length < 6) {
+            return "Password must be at least 6 characters long.";
+        }
+        if (password !== confirmPassword) {
+            return "Passwords do not match.";
+        }
+
+        // Check if contact number already exists
+        const contactExists = await checkContactExists(contactNumber);
+        if (contactExists) {
+            toast.error("Contact number already exists!");
+            return "Contact number already exists.";
+        }
+
+        // Check if email already exists
+        const emailExists = await checkEmailExists(email);
+        if (emailExists) {
+            toast.error("Email already exists!");
+            return "Email already exists.";
+        }
+
         return "";
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError("");
+        setLoading(true);
 
-        const validationError = validateForm();
+        const validationError = await validateForm();
         if (validationError) {
-            setError(validationError);
+            toast.error("Doctor not saved due to duplicate details!"); // Show warning message
+            setLoading(false);
             return;
         }
 
-        setLoading(true);
         try {
-            const response = await axios.post("http://localhost:8090/api/doctor", { ...formData, availableDays: formData.availableDays.join(", ") });
+            const response = await axios.post(`${API_BASE_URL}`, { 
+                ...formData, 
+                availableDays: formData.availableDays.join(", ") 
+            });
+
             if (response.status === 200 || response.status === 201) {
                 toast.success("Doctor registered successfully");
                 setFormData({
@@ -84,12 +138,13 @@ const DoctorReg = () => {
                     experienceYears: "",
                     clinicAddress: "",
                     availableDays: [],
-                    consultationFee: ""
+                    consultationFee: "",
+                    password: "",
+                    confirmPassword: ""
                 });
             }
         } catch (error) {
-            setError(error.response?.data?.message || "Failed to register doctor.");
-            toast.error("Something went wrong");
+            toast.error(error.response?.data?.message || "Failed to register doctor.");
         } finally {
             setLoading(false);
         }
@@ -123,16 +178,26 @@ const DoctorReg = () => {
                 <input type="text" name="clinicAddress" value={formData.clinicAddress} onChange={handleChange} required />
 
                 <label>Available Days</label>
-                <select multiple name="availableDays" value={formData.availableDays} onChange={handleDaysChange} required>
-                    {daysOfWeek.map((day, index) => (
-                        <option key={index} value={day}>{day}</option>
-                    ))}
-                </select>
+                <Select
+                    isMulti
+                    name="availableDays"
+                    options={daysOfWeek}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    value={daysOfWeek.filter(day => formData.availableDays.includes(day.value))}
+                    onChange={handleDaysChange}
+                    required
+                />
 
                 <label>Consultation Fee</label>
                 <input type="number" name="consultationFee" value={formData.consultationFee} onChange={handleChange} required />
 
-                {error && <p className={style.error}>{error}</p>}
+                <label>Password</label>
+                <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+
+                <label>Confirm Password</label>
+                <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required />
+
                 <button type="submit" className={style.submitButton} disabled={loading}>
                     {loading ? "Registering..." : "Register Doctor"}
                 </button>

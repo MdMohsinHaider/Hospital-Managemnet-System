@@ -20,7 +20,7 @@ const Login = () => {
 
         let apiEndpoint = "";
         if (activeUser === "Doctor") {
-            apiEndpoint = `http://localhost:8090/api/doctor/auth?doctorId=${formData.id}&password=${formData.password}`;
+            apiEndpoint = `http://localhost:8090/api/doctor/authenticate?doctorId=${formData.id}&password=${formData.password}`;
         } else if (activeUser === "patient") {
             apiEndpoint = `http://localhost:8090/api/patient/auth?patientId=${formData.id}&password=${formData.password}`;
         } else {
