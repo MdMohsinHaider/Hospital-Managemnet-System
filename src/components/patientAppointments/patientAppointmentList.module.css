@@ -1,8 +1,9 @@
 .PatientAppointmentContainer {
     padding: 20px;
-    background-color: #ba8ff388;
+    background: rgba(2, 0, 36, 0.753);
+    background: linear-gradient(37deg, rgba(2,0,36,1) 0%, rgba(204,123,69,0.7203256302521008) 46%, rgba(0,212,255,1) 100%);
     border-radius: 10px;
-    max-width: 98%;
+    max-width: 97%;
     margin: auto;
 }
 
@@ -11,10 +12,12 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    max-height: 500px;
+    overflow-y: auto;
 }
 
 .Card {
-    background: #fdfdf541;
+    background: #c3eff5ab;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     padding: 15px;
@@ -29,7 +32,7 @@
 
 h2 {
     text-align: center;
-    color: #333;
+    color:black;
 }
 
 h3 {
@@ -38,7 +41,7 @@ h3 {
 
 p {
     margin: 5px 0;
-    color: #555;
+    color: #000000;
 }
 
 /* Strikethrough for past appointments */
