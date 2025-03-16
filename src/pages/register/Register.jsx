@@ -5,13 +5,13 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Register = () => {
     const [patient, setPatient] = useState({
+        contactNumber: "",
+        email: "",
+        password: "",
         firstName: "",
         lastName: "",
         dateOfBirth: "",
         gender: "",
-        contactNumber: "",
-        email: "",
-        password: "",
         address: "",
         emergencyContact: "",
         bloodType: ""
@@ -24,26 +24,38 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(patient);
         
+        // Validation
+        if (!patient.contactNumber.match(/^\d{10}$/)) {
+            toast.error("Invalid contact number. Must be 10 digits.");
+            return;
+        }
+        if (!patient.email.includes("@")) {
+            toast.error("Invalid email format.");
+            return;
+        }
+        if (patient.password.length < 6) {
+            toast.error("Password must be at least 6 characters long.");
+            return;
+        }
 
         try {
-            const response = await axios.post("http://localhost:8080/patientsController/savePatient", patient, {
+            const response = await axios.post("http://localhost:8090/api/patient", patient, {
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
 
             if (response.status === 201 || response.status === 200) {
-                toast.success("Registration Successful");
+                toast.success("Successfully Register Patient");
                 setPatient({
+                    contactNumber: "",
+                    email: "",
+                    password: "",
                     firstName: "",
                     lastName: "",
                     dateOfBirth: "",
                     gender: "",
-                    contactNumber: "",
-                    email: "",
-                    password: "",
                     address: "",
                     emergencyContact: "",
                     bloodType: ""
@@ -67,11 +79,11 @@ const Register = () => {
                     <div className={style.details}>
                         <div>
                             <label htmlFor="firstName">First Name</label>
-                            <input type="text" placeholder="Enter first name" name="firstName" value={patient.firstName} onChange={handleChange} required />
+                            <input type="text" name="firstName" value={patient.firstName} onChange={handleChange} required />
                         </div>
                         <div>
                             <label htmlFor="lastName">Last Name</label>
-                            <input type="text" placeholder="Enter last name" name="lastName" value={patient.lastName} onChange={handleChange} required />
+                            <input type="text" name="lastName" value={patient.lastName} onChange={handleChange} />
                         </div>
                     </div>
 
@@ -84,9 +96,9 @@ const Register = () => {
                             <label htmlFor="gender">Gender</label>
                             <select name="gender" value={patient.gender} onChange={handleChange} required>
                                 <option value="">-- Select --</option>
-                                <option value="1">Male</option>
-                                <option value="2">Female</option>
-                                <option value="3">Other</option>
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="OTHER">Other</option>
                             </select>
                         </div>
                     </div>
@@ -94,42 +106,42 @@ const Register = () => {
                     <div className={style.details}>
                         <div>
                             <label htmlFor="contactNumber">Contact Number</label>
-                            <input type="tel" placeholder="Enter contact number" name="contactNumber" value={patient.contactNumber} onChange={handleChange} required />
+                            <input type="tel" name="contactNumber" value={patient.contactNumber} onChange={handleChange} required />
                         </div>
                         <div>
                             <label htmlFor="email">Email</label>
-                            <input type="email" placeholder="Enter email" name="email" value={patient.email} onChange={handleChange} required />
+                            <input type="email" name="email" value={patient.email} onChange={handleChange} required />
                         </div>
                     </div>
 
                     <div className={style.details}>
                         <div>
                             <label htmlFor="password">Password</label>
-                            <input type="password" placeholder="Enter password" name="password" value={patient.password} onChange={handleChange} required />
+                            <input type="password" name="password" value={patient.password} onChange={handleChange} required />
                         </div>
                         <div>
                             <label htmlFor="address">Address</label>
-                            <input type="text" placeholder="Enter address" name="address" value={patient.address} onChange={handleChange} required />
+                            <input type="text" name="address" value={patient.address} onChange={handleChange} required />
                         </div>
                     </div>
 
                     <div className={style.details}>
                         <div>
                             <label htmlFor="emergencyContact">Emergency Contact</label>
-                            <input type="tel" placeholder="Enter emergency contact" name="emergencyContact" value={patient.emergencyContact} onChange={handleChange} />
+                            <input type="tel" name="emergencyContact" value={patient.emergencyContact} onChange={handleChange} />
                         </div>
                         <div>
                             <label htmlFor="bloodType">Blood Type</label>
                             <select name="bloodType" value={patient.bloodType} onChange={handleChange} required>
                                 <option value="">-- Select --</option>
-                                <option value="1">A+</option>
-                                <option value="2">A-</option>
-                                <option value="3">B+</option>
-                                <option value="4">B-</option>
-                                <option value="5">AB+</option>
-                                <option value="6">AB-</option>
-                                <option value="7">O+</option>
-                                <option value="8">O-</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
                             </select>
                         </div>
                     </div>

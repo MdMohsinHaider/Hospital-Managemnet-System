@@ -16,44 +16,34 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-        
         setError("");
 
         let apiEndpoint = "";
         if (activeUser === "Doctor") {
-            apiEndpoint = `http://localhost:8080/doctorController/verifyDoctor/${formData.id}/${formData.password}`;
+            apiEndpoint = `http://localhost:8090/api/doctor/authenticate?doctorId=${formData.id}&password=${formData.password}`;
         } else if (activeUser === "patient") {
-            apiEndpoint = `http://localhost:8080/patientsController/verifyPatient/${formData.id}/${formData.password}`;
+            apiEndpoint = `http://localhost:8090/api/patient/auth?patientId=${formData.id}&password=${formData.password}`;
         } else {
-            apiEndpoint = `http://localhost:8080/adminController/verifyAdmin/${formData.email}/${formData.password}`;
+            apiEndpoint = `http://localhost:8090/api/authenticateAdmin/identifier/${formData.email}/password/${formData.password}`;
         }
 
         try {
             const response = await axios.post(apiEndpoint);
             if (response.data === true) {
-                if (formData.email.length>0) {
-                    sessionStorage.setItem("email",formData.email);
-                } else{
-                    sessionStorage.setItem("id",formData.id);
+                if (formData.email.length > 0) {
+                    sessionStorage.setItem("email", formData.email);
+                } else {
+                    sessionStorage.setItem("id", formData.id);
                 }
                 navigate(`/${activeUser.toLowerCase()}`);
-                toast.success("Login success")
+                toast.success("Login successful");
             } else {
                 setError("Invalid credentials. Please try again.");
             }
         } catch (error) {
             setError("Something went wrong. Please try again later.");
-            toast.error(`something went wrong ${error}`)
+            toast.error(`Something went wrong: ${error}`);
             console.error("Login error:", error);
-            
-            // testing without login Api data
-                // if (formData.email.length>0) {
-                //     sessionStorage.setItem("email",formData.email);
-                // } else{
-                //     sessionStorage.setItem("id",formData.id);
-                // }
-                // navigate(`/${activeUser.toLowerCase()}`);
         }
     };
 
