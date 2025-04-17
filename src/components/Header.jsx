@@ -1,5 +1,5 @@
 // src/components/Header/Header.jsx
-import { Link, NavLink } from "react-router-dom";
+import { Link} from "react-router-dom";
 import styles from "./Header.module.css"; // Importing CSS module
 
 const Header = () => {
@@ -14,8 +14,8 @@ const Header = () => {
       {/* Navigation Menu */}
       <nav>
         <ul className={styles.navLinks}>
-          <li><NavLink to="/">Home</NavLink></li>
-          <li><Link to="/about">About</Link></li>
+          {/* <li><NavLink to="/">Home</NavLink></li> */}
+          {/* <li><Link to="/about">About</Link></li> */}
           {/* <li><Link to="/patient">Patients</Link></li>
           <li><Link to="/appointments">Appointment</Link></li> */}
         </ul>

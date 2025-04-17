@@ -91,7 +91,7 @@ const GetAppointment = () => {
                     <option value="">Choose a doctor</option>
                     {doctors.map((doctor) => (
                         <option key={doctor.doctorId} value={doctor.doctorId}>
-                            {doctor.name} - {doctor.specialization}
+                            {doctor.name} - {doctor.specialization} (Fee:{doctor.consultationFee})
                         </option>
                     ))}
                 </select>

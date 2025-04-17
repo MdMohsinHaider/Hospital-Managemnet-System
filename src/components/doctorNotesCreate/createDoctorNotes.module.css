@@ -1,10 +1,10 @@
 /* src/components/doctorNotesCreate/createDoctorNotes.module.css */
 
 .createDoctorNoteContainer {
-    max-width: 600px;
-    margin: 40px auto;
+    max-width: 900px;
+    margin: 4px 4px;
     padding: 24px;
-    background-color: #ffffff;
+    background-color: #d7e0a0c4;
     border-radius: 12px;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
 }
@@ -13,17 +13,17 @@ h1 {
     font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
-    color: #333;
+    color: #3333338a;
 }
 
 .noteForm {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 6px;
 }
 
 .textarea {
-    min-height: 150px;
+    min-height: 550px;
     padding: 12px;
     font-size: 16px;
     border: 1px solid #ccc;
